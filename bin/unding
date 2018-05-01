@@ -1,0 +1,31 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+use feature 'say';
+
+package App::Unding;
+my $DATA_ptr;
+our $state;
+INIT {
+    $DATA_ptr = tell DATA;    # where is DATA?
+    $state = join "", <DATA>; # slurp
+}
+
+#manipulate $App::Unding::state in this and other scripts
+print 'Password: ';
+my $pw = <STDIN>;
+
+END {
+    open DATA, '+<', $0;   # $0 is the name of this script
+    seek DATA, $DATA_ptr, 0;
+    print DATA $state;
+    print DATA $pw;
+    truncate DATA, tell DATA;  # in case new data is shorter than old data
+    close DATA;
+}
+__DATA__
+PWSALT:AAAA
+PWHASH:
+CRYPTO:
+zzzz
