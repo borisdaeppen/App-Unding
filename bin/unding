@@ -6,26 +6,43 @@ use feature 'say';
 
 package App::Unding;
 my $DATA_ptr;
-our $state;
+our $old_state; # what was in DATA, when script started
+our $new_state; # what should be in DATA, after script ends
 INIT {
     $DATA_ptr = tell DATA;    # where is DATA?
-    $state = join "", <DATA>; # slurp
+    $old_state = join "", <DATA>; # slurp
 }
 
-#manipulate $App::Unding::state in this and other scripts
-print 'Password: ';
-my $pw = <STDIN>;
+#manipulate $App::Unding::old_state in this and other scripts
+
+my $pwsalt;
+my $pwhash;
+my $crypto;
+
+foreach my $line (split(/\n/, $old_state)) {
+    $pwsalt = $1 if ($line =~ /PWSALT:(.*)/);
+    $pwhash = $1 if ($line =~ /PWHASH:(.*)/);
+    $crypto = $1 if ($line =~ /CRYPTO:(.*)/);
+
+}
+
+say $pwsalt;
+say $pwhash;
+say $crypto;
+
+#print 'Password: ';
+#my $pw = <STDIN>;
+#
+$new_state = "PWSALT:$pwsalt\nPWHASH:$pwhash\nCRYPTO:$crypto";
 
 END {
     open DATA, '+<', $0;   # $0 is the name of this script
     seek DATA, $DATA_ptr, 0;
-    print DATA $state;
-    print DATA $pw;
+    print DATA $new_state;
     truncate DATA, tell DATA;  # in case new data is shorter than old data
     close DATA;
 }
 __DATA__
 PWSALT:AAAA
-PWHASH:
-CRYPTO:
-zzzz
+PWHASH:TEST
+CRYPTO:TESTTEST
