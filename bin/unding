@@ -83,4 +83,21 @@ END {
     }
 }
 
+=pod
+
+=encoding utf8
+
+=head1 SYNOPSIS
+
+Encrypt a file. Content will be stored in unding.
+Attention: File will remain on disk!
+
+ unding /path/to/file
+
+Decrypt and display content stored in unding.
+
+ unding
+
+=cut
+
 __DATA__
