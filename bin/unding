@@ -10,13 +10,36 @@ use Data::Serializer;
 #cpanm Crypt::CBC
 #cpanm Crypt::Blowfish
 
-my $DATA_ptr;
+my  $DATA_ptr;
 our $old_state; # what was in DATA, when script started
 our $new_state; # what should be in DATA, after script ends
 our $encrypt_mode = 0;
+
 INIT {
-    $DATA_ptr = tell DATA;    # where is DATA?
+    $DATA_ptr = tell DATA;        # where is DATA?
     $old_state = join "", <DATA>; # slurp
+}
+
+my $help_message = <<'END_HELP';
+
+  Encrypt a file. Content will be stored in unding.
+  Attention: File will remain on disk!
+
+      unding /path/to/file
+
+  Decrypt and display content stored in unding.
+
+      unding
+
+END_HELP
+
+if (      # decrypt (no arg given) but nothing stored
+          (not defined $ARGV[0] and (length($old_state) < 1))
+          # encrypt (arg given) but --help instead of path
+       or (defined $ARGV[0] and $ARGV[0] =~ /^(-h|--help)/)
+   ) {
+     print $help_message;
+     exit 1;
 }
 
 print 'Password: ';
@@ -59,8 +82,5 @@ END {
         close DATA;
     }
 }
-# PWSALT:0123456789abcdef
-# PWHASH:TEST
-# CRYPTO:TESTTEST
+
 __DATA__
-^Data::Dumper|Blowfish|SHA-256|hex|^53616c7465645f5f24821dfca7af64a3b29fbde7b16ff201f0c0a27c717962460f2498390ae2b79092ff61605794b91af53d007b3694f0ce6cb0de4ab437ccf7d43d2498e843ac64a7d854e157fc8634f7a3d6f4cf77fd2273df868583f791db0a64ace416105971d5f3be20b3151f544b388ca7fcf9c52ec78b5593091a22089702982523b601f9ccf3b3635ca90cd315de2fec2945961776a5d8773710ba17eb9b68ecd5fcba5d9cc90217738a0cc4
