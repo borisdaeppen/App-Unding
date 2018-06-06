@@ -1,48 +1,66 @@
 #!/usr/bin/env perl
+package App::Unding;
 
 use strict;
 use warnings;
 use feature 'say';
 
-package App::Unding;
+use File::Slurp;
+use Data::Serializer;
+#cpanm Crypt::CBC
+#cpanm Crypt::Blowfish
+
 my $DATA_ptr;
 our $old_state; # what was in DATA, when script started
 our $new_state; # what should be in DATA, after script ends
+our $encrypt_mode = 0;
 INIT {
     $DATA_ptr = tell DATA;    # where is DATA?
     $old_state = join "", <DATA>; # slurp
 }
 
-#manipulate $App::Unding::old_state in this and other scripts
+print 'Password: ';
+my $password = <STDIN>;
 
-my $pwsalt;
-my $pwhash;
-my $crypto;
+my $obj = Data::Serializer->new(
+                   serializer => 'Data::Dumper',
+                   digester   => 'SHA-256',
+                   cipher     => 'Blowfish',
+                   secret     => $password,
+                   portable   => '1',
+                   compress   => '0',
+             serializer_token => '1',
+                     options  => {},
+                  );
 
-foreach my $line (split(/\n/, $old_state)) {
-    $pwsalt = $1 if ($line =~ /PWSALT:(.*)/);
-    $pwhash = $1 if ($line =~ /PWHASH:(.*)/);
-    $crypto = $1 if ($line =~ /CRYPTO:(.*)/);
-
+if ( defined $ARGV[0] ) {
+    $App::Unding::encrypt_mode = 1;
+    my $filename = $ARGV[0];
+    my $data = read_file($filename);
+    $new_state =$obj->serialize($data);
+}
+else {
+    my $data =$obj->deserialize($old_state);
+    if (defined $data) {
+        say $data;
+    }
+    else {
+        say STDERR 'Wrong password?';
+    }
 }
 
-say $pwsalt;
-say $pwhash;
-say $crypto;
-
-#print 'Password: ';
-#my $pw = <STDIN>;
-#
-$new_state = "PWSALT:$pwsalt\nPWHASH:$pwhash\nCRYPTO:$crypto";
 
 END {
-    open DATA, '+<', $0;   # $0 is the name of this script
-    seek DATA, $DATA_ptr, 0;
-    print DATA $new_state;
-    truncate DATA, tell DATA;  # in case new data is shorter than old data
-    close DATA;
+    if ($App::Unding::encrypt_mode) {
+        open DATA, '+<', $0;   # $0 is the name of this script
+        seek DATA, $DATA_ptr, 0;
+        print DATA $new_state;
+        truncate DATA, tell DATA;  # in case new data is shorter than old data
+        close DATA;
+    }
 }
+# PWSALT:0123456789abcdef
+# PWHASH:TEST
+# CRYPTO:TESTTEST
 __DATA__
-PWSALT:AAAA
-PWHASH:TEST
-CRYPTO:TESTTEST
+^Data::Dumper|Blowfish|SHA-256|hex|^53616c7465645f5f24821dfca7af64a3b29fbde7b16ff201f0c0a27c717962460f2498390ae2b79092ff61605794b91af53d007b3694f0ce6cb0de4ab437ccf7d43d2498e843ac64a7d854e157fc8634f7a3d6f4cf77fd2273df868583f791db0a64ace416105971d5f3be20b3151f544b388ca7fcf9c52ec78b5593091a22089702982523b601f9ccf3b3635ca90cd315de2fec2945961776a5d8773710ba17eb9b68ecd5fcba5d9cc90217738a0cc4
