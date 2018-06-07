@@ -1,4 +1,6 @@
 #!/usr/bin/env perl
+package App::Unding;
+
 use strict;
 use warnings;
 # Autor: Boris Däppen, 2018
