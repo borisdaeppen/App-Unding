@@ -38,7 +38,7 @@ if (      # decrypt (no arg given) but nothing stored
           # encrypt (arg given) but --help instead of path
        or (defined $ARGV[0] and $ARGV[0] =~ /^(-h|--help)/)
    ) {
-     print $help_message;
+     print STDERR $help_message;
      exit 1;
 }
 
