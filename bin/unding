@@ -1,8 +1,12 @@
 #!/usr/bin/env perl
-package App::Unding;
-
 use strict;
 use warnings;
+# Autor: Boris Däppen, 2018
+# No guarantee given, use at own risk and will
+
+# PODNAME: app-unding
+# ABSTRACT: dark magic encrypted wallet
+
 use feature 'say';
 
 use File::Slurp;
@@ -57,7 +61,7 @@ my $obj = Data::Serializer->new(
                   );
 
 if ( defined $ARGV[0] ) {
-    $App::Unding::encrypt_mode = 1;
+    $encrypt_mode = 1;
     my $filename = $ARGV[0];
     my $data = read_file($filename);
     $new_state =$obj->serialize($data);
@@ -74,7 +78,7 @@ else {
 
 
 END {
-    if ($App::Unding::encrypt_mode) {
+    if ($encrypt_mode) {
         open DATA, '+<', $0;   # $0 is the name of this script
         seek DATA, $DATA_ptr, 0;
         print DATA $new_state;
