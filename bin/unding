@@ -12,6 +12,7 @@ use warnings;
 use feature 'say';
 
 use File::Slurp;
+use Term::ReadKey;
 use Data::Serializer;
 #cpanm Crypt::CBC
 #cpanm Crypt::Blowfish
@@ -48,8 +49,10 @@ if (      # decrypt (no arg given) but nothing stored
      exit 1;
 }
 
-#print 'Password: ';
-my $password = <STDIN>;
+# read password, without any prompt
+ReadMode('noecho');
+chomp(my $password = <STDIN>);
+ReadMode('restore');
 
 my $obj = Data::Serializer->new(
                    serializer => 'Data::Dumper',
