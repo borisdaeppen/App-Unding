@@ -1,9 +1,15 @@
 use Test::Script 1.10 tests => 4;
 
-script_compiles('bin/unding');
+use File::Copy;
+
+copy ('bin/unding', 'bin/unding.test');
+
+script_compiles('bin/unding.test');
 
 my $pw = "test\n";
 
-script_runs(['bin/unding', 't/secret.txt'], { stdin => \$pw }, 'encrypt');
-script_runs(['bin/unding'],                 { stdin => \$pw }, 'decrypt');
-script_stdout_is("Hello World!\n",                     'compare');
+script_runs(['bin/unding.test', 't/secret.txt'], { stdin => \$pw }, 'encrypt');
+script_runs(['bin/unding.test'],                 { stdin => \$pw }, 'decrypt');
+script_stdout_is("Hello World!\n",                                  'compare');
+
+unlink 'bin/unding.test';
