@@ -98,19 +98,22 @@ END {
 =head1 SYNOPSIS
 
 This is an executable script, not a library.
+Since this script needs write access on it self (yes!), it's best you copy it to your local directory before using.
+
+ cp $(which unding) .
+ chmod 755 unding
 
 Encrypt a file. Content will be stored in unding.
 Attention: File will remain on disk!
 
- unding /path/to/file
+ ./unding /path/to/file
 
 Decrypt and display content stored in unding.
 
- unding
+ ./unding
 
 In both cases you must enter a password, but no prompt will tell you so.
 
-Since this script need write access on it self (yes!), it's best you copy the binary to your home directory before using.
 
 =head1 MOTIVATION
 
