@@ -9,7 +9,7 @@ use warnings;
 # PODNAME: app-unding
 # ABSTRACT: dark magic, encrypted wallet
 
-use feature 'say';
+use v5.6.0;
 
 use File::Slurp;
 use Term::ReadKey;
@@ -77,7 +77,7 @@ else {
         print $data;
     }
     else {
-        say STDERR 'Wrong password?';
+        print STDERR "Wrong password?\n";
     }
 }
 
