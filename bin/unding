@@ -98,6 +98,8 @@ END {
 
 =head1 SYNOPSIS
 
+This is an executable script, not a library.
+
 Encrypt a file. Content will be stored in unding.
 Attention: File will remain on disk!
 
@@ -121,6 +123,20 @@ But also descriptively, because the script transforms a I<thing> (text) into a I
 B<So what's in for me?> The I<dark magic> offers you your encrypted secrets together with the code to decrypt it in one single file.
 All you need to de- and encrypt is this file and a Perl environment.
 No separation of ciphertext and cryptologic.
+
+=head1 WARNINGS
+
+=over
+
+=item This is an early release. Use it at your own risk.
+
+=item While encryption, the script does not check if it overwrites existing encrypted data.
+
+=item While encryption, the script does not check if the password is the same as before. Decrypt once to be sure you made no typos.
+
+=item After encryption, the script does not delete the original file. You have to do this yourself. This may be considered a feature, since it might prevent loss of data.
+
+=back
 
 =cut
 
