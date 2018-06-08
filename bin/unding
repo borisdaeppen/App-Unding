@@ -110,6 +110,8 @@ Decrypt and display content stored in unding.
 
 In both cases you must enter a password, but no prompt will tell you so.
 
+Since this script need write access on it self (yes!), it's best you copy the binary to your home directory before unsing.
+
 =head1 MOTIVATION
 
 B<Why «dark magic»?> The script uses a technique which making use of, is higly disencouraged by intelligent programmers:
