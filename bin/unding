@@ -107,6 +107,8 @@ Decrypt and display content stored in unding.
 
  unding
 
+In both cases you must enter a password, but no prompt will tell you so.
+
 =head1 MOTIVATION
 
 B<Why «dark magic»?> The script uses a technique which making use of, is higly disencouraged by intelligent programmers:
@@ -116,7 +118,7 @@ B<Why the name «unding»?> C<unding> derives from the German I<Un-Ding>, meanin
 The negation can be meant pejoratively, relating to the I<dark magic> invoced.
 But also descriptively, because the script transforms a I<thing> (text) into a I<nothing> (cypher text).
 
-B<So what's in for me?> The I<dark magic> offers you your encrypted secret together with to code to decrypt it in one single file.
+B<So what's in for me?> The I<dark magic> offers you your encrypted secrets together with the code to decrypt it in one single file.
 All you need to de- and encrypt is this file and a Perl environment.
 No separation of ciphertext and cryptologic.
 
