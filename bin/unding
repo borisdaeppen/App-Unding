@@ -1,12 +1,10 @@
 #!/usr/bin/env perl
-package App::Unding;
-
 use strict;
 use warnings;
 # Autor: Boris Däppen, 2018
 # No guarantee given, use at own risk and will
 
-# PODNAME: app-unding
+# PODNAME: unding
 # ABSTRACT: dark magic, encrypted wallet
 
 use v5.6.0;
