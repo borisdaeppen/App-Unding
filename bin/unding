@@ -110,7 +110,7 @@ Decrypt and display content stored in unding.
 
 In both cases you must enter a password, but no prompt will tell you so.
 
-Since this script need write access on it self (yes!), it's best you copy the binary to your home directory before unsing.
+Since this script need write access on it self (yes!), it's best you copy the binary to your home directory before using.
 
 =head1 MOTIVATION
 
