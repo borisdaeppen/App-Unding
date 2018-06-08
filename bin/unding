@@ -39,7 +39,7 @@ my $help_message = <<'END_HELP';
 END_HELP
 
 if (      # decrypt (no arg given) but nothing stored
-          (not defined $ARGV[0] and (length($old_state) < 1))
+          (not defined $ARGV[0] and (length($old_state) < 2))
           # encrypt (arg given) but --help instead of path
        or (defined $ARGV[0] and $ARGV[0] =~ /^(-h|--help)/)
    ) {
