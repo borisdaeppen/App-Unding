@@ -2,6 +2,10 @@ Revision history for App-Unding
  
 {{$NEXT}}
 
+0.003     2018-06-08 10:51:37+02:00 Europe/Zurich
+ - correctly display help if no storage and decrypting
+ - die if encrypting and no write access on file, also mention in pod
+
 0.002     2018-06-08 10:28:17+02:00 Europe/Zurich
  - added stub module for cpan indexing
 
